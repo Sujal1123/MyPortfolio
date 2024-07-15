@@ -10,7 +10,7 @@ const sessionOptions = {
     secret: process.env.SECRET  ,
     resave: false,
     saveUninitialized: true
-}
+};
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -18,15 +18,6 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({extended:true}));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname,"/public")));
-
-app.use(sessionOptions());
-app.use(flash());
-
-app.use((req, res, next) => {
-    res.locals.success = req.flash("success");
-    res.locals.error = req.flash("error");
-    next();
-});
 
 app.get("/", (req, res) => {
     res.render("../views/listings/show.ejs");
@@ -50,11 +41,6 @@ app.get("/certificates", (req, res) => {
 
 app.get("/achievements", (req, res) =>{
     res.redirect("/");
-});
-
-app.get("/flash", (req, res) => {
-    console.log(req.flash("success"));
-    res.render("show.ejs", { msg: req.flash("success") });
 });
 
 app.all("*", (req, res, next) => {
